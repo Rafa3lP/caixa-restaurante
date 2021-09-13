@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class App_Caixa {
     
-    static Scanner teclado = new Scanner(System.in);
+    static Scanner teclado = new Scanner(System.in).useDelimiter("\n");
     static LinkedList<Garcom> garcons = new LinkedList<>();
     static LinkedList<Produto> produtos = new LinkedList<>();
     static LinkedList<Pedido> pedidos = new LinkedList<>();
@@ -32,6 +32,17 @@ public class App_Caixa {
         System.out.println("Digite a matricula do garçom: ");
         matricula = teclado.nextInt();
         
+        for(Garcom g: garcons) {
+            
+            if(g.getMatricula() == matricula){
+                
+                System.out.println("Matricula ja existe");
+                return;
+                
+            }
+            
+        }
+        
         garcons.add(new Garcom(nome, matricula));
         
         System.out.println(garcons.getLast() + "\nAdicionado com sucesso!");
@@ -43,7 +54,7 @@ public class App_Caixa {
         int codigo;
         float preco;
         
-        System.out.println("Digite o nome do novo produto:");
+        System.out.println("Digite o nome do novo produto: ");
         nome = teclado.next();
         System.out.println("Digite o codigo do novo produto: ");
         codigo = teclado.nextInt();
@@ -145,6 +156,7 @@ public class App_Caixa {
         
     }
     
+    
     public static void adicionarProduto(){
         
         Pedido pedido = null;
@@ -224,6 +236,9 @@ public class App_Caixa {
     } 
     public static void fecharPedido(){
         
+        Pedido pedido = null;
+        int cod;
+        
         if(pedidos.isEmpty()){
             
             System.out.println("Nenhum pedido aberto!");
@@ -233,6 +248,27 @@ public class App_Caixa {
             System.out.println("FECHAR PEDIDO");
             imprimirPedidos();
             System.out.println("Digite o codigo do pedido: ");
+            cod = teclado.nextInt();
+                    
+            for(Pedido p: pedidos) {
+
+                if(p.codigo == cod) {
+
+                    pedido = p;
+                    break;
+
+                }
+
+            }
+            if(pedido == null){
+
+                System.out.println("Pedido nao encontrado!");
+
+            }else{
+                
+                valor_caixa += pedido.fecharPedido();
+                
+            }
             
         }
         
@@ -366,7 +402,7 @@ public class App_Caixa {
                 
             } catch (InputMismatchException e) {
                 
-                System.out.println("Digite apenas numeros!");
+                System.out.println("Digite apenas numeros!" + e.getStackTrace());
                 teclado.nextLine();
     
             }

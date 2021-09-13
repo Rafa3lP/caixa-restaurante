@@ -53,9 +53,17 @@ public class Pedido {
         
     }
     
-    public int fecharPedido(){
+    public float fecharPedido(){
         
-        return 0;
+        float total = 0;
+        
+        for(Itens i: itens) {
+            
+            total += i.getQuantidade() * i.getProduto().getPreco();
+            
+        }
+        
+        return total;
         
     }
     
