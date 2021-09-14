@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class App_Caixa {
     
-    static Scanner teclado = new Scanner(System.in).useDelimiter("\n");
+    static Scanner teclado = new Scanner(System.in);
     static LinkedList<Garcom> garcons = new LinkedList<>();
     static LinkedList<Produto> produtos = new LinkedList<>();
     static LinkedList<Pedido> pedidos = new LinkedList<>();
@@ -28,7 +28,7 @@ public class App_Caixa {
         int matricula;
         
         System.out.println("Digite o nome do garçom: ");
-        nome = teclado.next();
+        nome = teclado.nextLine();
         System.out.println("Digite a matricula do garçom: ");
         matricula = teclado.nextInt();
         
@@ -55,7 +55,7 @@ public class App_Caixa {
         float preco;
         
         System.out.println("Digite o nome do novo produto: ");
-        nome = teclado.next();
+        nome = teclado.nextLine();
         System.out.println("Digite o codigo do novo produto: ");
         codigo = teclado.nextInt();
         System.out.println("Digite o preço do novo produto: ");
@@ -238,6 +238,7 @@ public class App_Caixa {
         
         Pedido pedido = null;
         int cod;
+        char op;
         
         if(pedidos.isEmpty()){
             
@@ -266,7 +267,26 @@ public class App_Caixa {
 
             }else{
                 
-                valor_caixa += pedido.fecharPedido();
+                imprimirNotaPedido(pedido);
+                System.out.println("Confirma pagamento?(s/n)");
+                op = teclado.next().charAt(0);
+                switch(op){
+
+                    case 's':
+                    case 'S':
+                        valor_caixa += pedido.fecharPedido();
+                        pedidos.remove(pedido);
+                        break;
+                    case 'n':
+                    case 'N':
+                        System.out.println("Pedido nao fechado por falta de pagamento!");
+                        return;
+                    default:
+                        System.out.println("opcao invalida!");
+                        break;
+
+                }   
+                
                 
             }
             
@@ -283,12 +303,12 @@ public class App_Caixa {
         
         System.out.printf("                                PEDIDOS\n");
         System.out.printf(" _______________________________________________________________________\n");
-        System.out.printf("|     CODIGO    |       GARÇOM      |              DATA                 |\n");
-        System.out.printf("|_______________|___________________|___________________________________|\n");
+        System.out.printf("|    CODIGO     |           GARÇOM            |           DATA          |\n");
+        System.out.printf("|_______________|_____________________________|_________________________|\n");
         pedidos.forEach(p -> {
 
-            System.out.printf("| %-14d| %-18s| %-34s|\n", p.codigo, p.getGarcom().getNome(), p.getData());
-            System.out.printf("|_______________|___________________|___________________________________|\n");
+            System.out.printf("| %-14d| %-28s| %-24s|\n", p.codigo, p.getGarcom().getNome(), p.getData());
+            System.out.printf("|_______________|_____________________________|_________________________|\n");
 
         });
         
@@ -342,6 +362,20 @@ public class App_Caixa {
         
     }
     
+    public static void imprimirNotaPedido(Pedido p) {
+        
+        System.out.println("                            NOTA DO PEDIDO");
+        System.out.printf(" _______________________________________________________________________\n");
+        System.out.printf("| CODIGO: %-14d DATA: %-41s|\n", p.codigo, p.getData());
+        System.out.printf("| GARÇOM: %-62s|\n", p.getGarcom().getNome());
+        imprimirItensPedido(p);
+        System.out.printf("|                                                                       |\n");
+        System.out.printf("| TOTAL DO PEDIDO: %-53s|\n",  String.format("R$%.2f",p.fecharPedido()));
+        System.out.printf("|                                                                       |\n");
+        System.out.printf(" _______________________________________________________________________\n");
+        
+    }
+    
  
     public static void main(String[] args) {
         
@@ -367,6 +401,8 @@ public class App_Caixa {
                 
                 op = teclado.nextInt();
                 
+                teclado.nextLine();
+                
                 switch(op){
 
                     case 1:
@@ -391,9 +427,6 @@ public class App_Caixa {
                         System.out.println("Saindo...");
                         System.exit(0);
                         break;
-                    case 8:
-                        imprimirProdutos();
-                        break;
                     default:
                         System.out.println("Opcao invalida!");
                         break;
@@ -402,7 +435,7 @@ public class App_Caixa {
                 
             } catch (InputMismatchException e) {
                 
-                System.out.println("Digite apenas numeros!" + e.getStackTrace());
+                System.out.println("Digite apenas numeros!");
                 teclado.nextLine();
     
             }
