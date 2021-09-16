@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package caixaRestaurante;
 
 /**
@@ -36,7 +31,9 @@ public class Garcom {
     @Override
     public String toString(){
         
-        return "Garçom - " + this.getNome() + " matricula: " + this.getMatricula();
+        return "Garçom - " + this.getNome()
+                + " - matricula: " + this.getMatricula()
+                + "\n";
         
     }
     

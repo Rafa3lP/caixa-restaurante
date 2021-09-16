@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package caixaRestaurante;
 
 import java.text.SimpleDateFormat;
@@ -17,21 +12,27 @@ import java.util.LinkedList;
 public class Pedido {
    
     private static int cont = 0;
-    public int codigo;
-    private Calendar c = Calendar.getInstance();
-    private Date data = c.getTime();
+    
+    private int codigo;
+    private Date data;
     private Garcom garcom;
-    private LinkedList<Itens> itens = new LinkedList<>();
+    private LinkedList<Item> itens = new LinkedList<>();
     
     public Pedido(Garcom garcom){
         
-        codigo = cont++;
+        this.codigo = cont++;
         this.garcom = garcom;
+        this.data = Calendar.getInstance().getTime();
         
     }
-   
+    
+    public int getCodigo() {
+        
+        return codigo;
+        
+    }
 
-    public String getData() {
+    public String getStrData() {
         
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String d = fmt.format(data);
@@ -43,11 +44,11 @@ public class Pedido {
         return garcom;
     }
 
-    public LinkedList<Itens> getItens() {
+    public LinkedList<Item> getItens() {
         return itens;
     }
 
-    public void setItens(Itens item) {
+    public void addItem(Item item) {
         
         this.getItens().add(item);
         
@@ -57,7 +58,7 @@ public class Pedido {
         
         float total = 0;
         
-        for(Itens i: itens) {
+        for(Item i: itens) {
             
             total += i.getQuantidade() * i.getProduto().getPreco();
             
@@ -70,7 +71,10 @@ public class Pedido {
     @Override
     public String toString(){
         
-        return "Pedido - cod: " + this.codigo + " Garçom: " + this.getGarcom().getNome() + " Data: " + this.getData();
+        return "Pedido - cod: " + this.codigo
+                + " Garçom: " + this.getGarcom().getNome()
+                + " Data: " + this.getStrData()
+                + "\n";
         
     }
     

@@ -11,54 +11,56 @@ package caixaRestaurante;
  */
 public class Produto {
     
-    private String nome;
+    private static int cont = 0;
     private int codigo;
+    private String nome;
     private float preco;
     
-    public Produto(){
+    public Produto(String nome, float preco){
         
-        this.nome = "ProdutoSemNome";
-        this.codigo = -1;
-        this.preco = 0f;
-        
-    }
-    
-    public Produto(String nome, int codigo, float preco){
-        
+        this.codigo = cont++;
         this.nome = nome;
-        this.codigo = codigo;
         this.preco = preco;
         
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public int getCodigo() {
+        
         return codigo;
+        
+    }
+    
+    public String getNome() {
+        
+        return nome;
+        
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setNome(String nome) {
+        
+        this.nome = nome;
+        
     }
 
     public float getPreco() {
+        
         return preco;
+        
     }
 
     public void setPreco(float preco) {
+        
         this.preco = preco;
+        
     }
     
     @Override
     public String toString(){
         
-        return "Produto - " + nome + " - Codigo " + codigo + " - Preço R$"+ String.format("%.2f", preco);
+        return "Produto - " + nome
+                + " - Codigo " + codigo
+                + " - Preço R$" + String.format("%.2f", preco)
+                + "\n";
         
     }
 
